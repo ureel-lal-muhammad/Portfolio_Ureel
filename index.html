@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ureel Lal Muhammad Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a field notebook for an SDG advocate. A segmented SDG colour bar runs
+   through the page; each project group and chip carries the colour of its goal. */
+:root{
+  --paper:#F4F7FA; --surface:#FFFFFF; --ink:#10243A; --muted:#506378; --line:#D7E0E8;
+  --accent:#19486A; --accent-ink:#FFFFFF; --soft:#E8EEF4;
+  --sdg3:#4C9F38; --sdg4:#C5192D; --sdg5:#E5361E; --sdg10:#DD1367; --sdg13:#3F7E44; --sdg17:#19486A;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --r:14px; --shadow:0 1px 2px rgba(16,36,58,.06),0 8px 24px rgba(16,36,58,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1724; --surface:#122133; --ink:#EAF0F6; --muted:#9FB2C6; --line:#243A50;
+    --accent:#8CC4EE; --accent-ink:#0B1724; --soft:#182B40;
+    --sdg3:#6CBF57; --sdg4:#E8546A; --sdg5:#FF7A5E; --sdg10:#F0559A; --sdg13:#63A86A; --sdg17:#6FA9D4;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1724; --surface:#122133; --ink:#EAF0F6; --muted:#9FB2C6; --line:#243A50;
+  --accent:#8CC4EE; --accent-ink:#0B1724; --soft:#182B40;
+  --sdg3:#6CBF57; --sdg4:#E8546A; --sdg5:#FF7A5E; --sdg10:#F0559A; --sdg13:#63A86A; --sdg17:#6FA9D4;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+img,video{max-width:100%;display:block}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.12}
+:focus-visible{outline:3px solid var(--sdg10);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.sdgbar{display:flex;height:8px}
+.sdgbar i{flex:1}
+.sdgbar i:nth-child(1){background:var(--sdg3)}.sdgbar i:nth-child(2){background:var(--sdg4)}
+.sdgbar i:nth-child(3){background:var(--sdg5)}.sdgbar i:nth-child(4){background:var(--sdg10)}
+.sdgbar i:nth-child(5){background:var(--sdg13)}.sdgbar i:nth-child(6){background:var(--sdg17)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:18px;min-height:54px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--ink);text-decoration:none;margin-right:auto}
+.nav nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:6px 10px;border-radius:8px}
+.nav nav a:hover{background:var(--soft);color:var(--ink)}
+
+/* hero */
+.hero{padding:44px 0 36px}
+.hero .hgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:44px;align-items:center}
+.eyebrow{font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;color:var(--muted)}
+.hero h1{font-size:clamp(2.3rem,6vw,4.1rem);font-weight:800;letter-spacing:-.02em;margin:10px 0 12px}
+.role{font-family:var(--display);font-weight:700;font-size:clamp(1.15rem,2.4vw,1.5rem);color:var(--accent)}
+.role2{color:var(--muted);font-weight:600;margin-top:4px}
+.intro{margin:18px 0 0;max-width:62ch;white-space:pre-line}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.sdg{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px 4px 4px;font-size:.86rem;font-weight:600}
+.sdg b{background:var(--c);color:#fff;border-radius:999px;min-width:26px;height:26px;display:grid;place-items:center;font-family:var(--display);font-size:.85rem;padding:0 6px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:.95rem;border-radius:10px;padding:10px 16px;text-decoration:none;cursor:pointer;border:1.5px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.small{padding:6px 11px;font-size:.85rem;border-radius:8px}
+.btn:hover{filter:brightness(1.08)}
+.portrait{position:relative}
+.portrait .main{position:relative}
+.portrait.duo{padding:0 0 56px 44px}
+.portrait .inset{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:4/5;object-fit:cover;object-position:50% 15%;border-radius:16px;border:5px solid var(--paper);box-shadow:var(--shadow);transform:rotate(-3deg)}
+.portrait img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:20px;box-shadow:var(--shadow)}
+.portrait .sdgbar{position:absolute;left:18px;right:18px;bottom:-4px;border-radius:99px;overflow:hidden}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:36px}
+.stat{background:var(--surface);padding:16px 18px}
+.stat .n{font-family:var(--display);font-weight:800;font-size:1.6rem;font-variant-numeric:tabular-nums}
+.stat .l{color:var(--muted);font-size:.92rem;line-height:1.35}
+
+.pulse{width:min(100%,520px);height:34px;display:block;margin:2px 0 10px}
+.pulse path{fill:none;stroke:var(--sdg3);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:900;animation:draw 5s ease-in-out infinite}
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:22px;max-width:640px}
+.tile{background:var(--c);color:#fff;border-radius:10px;padding:9px 9px 6px;aspect-ratio:1/1.12;display:flex;flex-direction:column;overflow:hidden;transition:transform .2s}
+.tile:hover{transform:translateY(-3px) rotate(-1.5deg)}
+.tn{font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1}
+.tl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;line-height:1.15;margin-top:3px}
+.tile svg{margin-top:auto;width:100%;height:46%;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.a-ecg{stroke-dasharray:80;animation:ecg 2.2s linear infinite}
+.a-page{transform-origin:24px 25px;animation:page 3s ease-in-out infinite}
+.a-line{animation:fade 3s ease-in-out infinite}
+.a-beat{transform-origin:24px 22px;animation:beat 1.8s ease-in-out infinite}
+.a-up{animation:up 2.4s ease-in-out infinite}.a-down{animation:down 2.4s ease-in-out infinite}
+.a-spin{transform-origin:24px 19px;animation:spin 14s linear infinite}
+.a-wave{animation:wave 2.6s linear infinite}
+.a-orbit{transform-origin:24px 24px;animation:spin 16s linear infinite}
+@keyframes ecg{from{stroke-dashoffset:160}to{stroke-dashoffset:0}}
+@keyframes draw{0%{stroke-dashoffset:900}55%,100%{stroke-dashoffset:0}}
+@keyframes page{0%,100%{transform:scaleX(1)}50%{transform:skewY(-8deg)}}
+@keyframes fade{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+@keyframes up{0%,100%{transform:translateY(3px)}50%{transform:translateY(-1px)}}
+@keyframes down{0%,100%{transform:translateY(-3px)}50%{transform:translateY(1px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes wave{to{transform:translateX(-12px)}}
+.waves{display:block;width:100%;height:54px;margin-top:20px}
+.waves .w1{fill:var(--sdg13);opacity:.35;animation:drift 9s ease-in-out infinite alternate}
+.waves .w2{fill:var(--sdg17);opacity:.5;animation:drift 7s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-75px)}}
+.card{transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px)}
+@media (min-width:900px){.grid.feature>.card:first-child{grid-column:span 2}.grid.feature>.card:first-child .shot img{aspect-ratio:16/9}}
+@media (prefers-reduced-motion:reduce){.pulse path,.tile svg *,.waves path{animation:none!important}.card,.tile{transition:none}}
+@media (max-width:560px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* sections */
+section.block{padding:46px 0;border-top:1px solid var(--line)}
+.shead{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;margin-bottom:26px}
+.tick{display:grid;grid-template-columns:repeat(3,8px);gap:3px;margin-top:9px}
+.tick i{height:22px;border-radius:2px}
+.tick i:nth-child(1){background:var(--sdg3)}.tick i:nth-child(2){background:var(--sdg5)}.tick i:nth-child(3){background:var(--sdg17)}
+.shead h2{font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:800;letter-spacing:-.015em}
+.lead{color:var(--muted);max-width:68ch;margin-top:8px;white-space:pre-line}
+.group{margin-top:30px}
+.group:first-of-type{margin-top:0}
+.ghead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:14px;padding-left:12px;border-left:6px solid var(--gc,var(--accent))}
+.ghead h3{font-size:1.25rem;font-weight:700}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);border-top:4px solid var(--gc,var(--line))}
+.shot{border:0;padding:0;margin:0;background:var(--soft);cursor:zoom-in;display:block;width:100%}
+.shot img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 25%}
+.fit-contain .shot img{object-fit:contain;padding:10px}
+.card video{width:100%;background:#000}
+.cbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cbody h3{font-size:1.12rem;font-weight:700}
+.meta{color:var(--muted);font-weight:600;font-size:.9rem}
+.text{white-space:pre-line;font-size:.98rem}
+.cbody .btn{align-self:flex-start;margin-top:8px}
+
+/* experience rows */
+.rows{display:flex;flex-direction:column;gap:18px}
+.row{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:24px;align-items:start}
+.row.noimg{grid-template-columns:1fr}
+.row h3{font-size:1.25rem;font-weight:700}
+.row .meta{margin:4px 0 10px}
+.doc{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.doc .shot{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.doc .shot img{aspect-ratio:3/4;object-fit:cover;object-position:top}
+.doc span{font-size:.85rem;font-weight:700;color:var(--accent);text-align:center}
+
+/* list */
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.li h3{font-size:1.02rem;font-weight:700;font-family:var(--body)}
+.li .text{color:var(--ink);margin-top:4px}
+
+footer{background:var(--surface);padding:22px 0 90px;color:var(--muted);font-size:.92rem}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(6,14,24,.92);display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:12px}
+.lb.on{display:flex}
+#lbBox{max-height:calc(100% - 60px);max-width:min(100%,1100px);overflow:auto;display:flex;flex-direction:column;gap:12px;align-items:center;border-radius:8px}
+#lbBox img{max-width:100%;background:#fff;border-radius:6px}
+#lbBox img:only-child{max-height:calc(100vh - 110px);object-fit:contain}
+.lb p{color:#fff;margin:0;font-weight:600;text-align:center}
+.lb button{position:absolute;top:14px;right:14px}
+
+/* edit mode */
+.editbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--paper);border-radius:14px;padding:8px 10px;display:none;gap:8px;align-items:center;box-shadow:var(--shadow);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
+.editbar.on{display:flex}
+.editbar .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.editbar .btn.ghost{background:transparent;color:var(--paper)}
+.editbar .msg{font-size:.9rem;padding:0 6px}
+.tools,.addrow,.efields,.stools{display:none}
+body.editing .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+body.editing .efields{display:grid;gap:6px;margin-top:8px}
+body.editing .addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+body.editing .stools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.efields label{font-size:.78rem;font-weight:700;color:var(--muted);display:grid;gap:2px}
+.efields input{font:inherit;font-size:.9rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:100%}
+.tbtn{font:inherit;font-size:.8rem;font-weight:700;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:7px;padding:5px 9px;cursor:pointer}
+.tbtn.danger{color:var(--sdg4);border-color:var(--sdg4);background:transparent}
+.tbtn.add{border-style:dashed;padding:9px 14px;font-size:.9rem}
+body.editing [data-p]{outline:1.5px dashed var(--sdg10);outline-offset:3px;border-radius:4px;min-width:40px;min-height:1.2em;cursor:text}
+body.editing [data-p]:empty::before{content:attr(data-ph);color:var(--muted);font-weight:400}
+body:not(.editing) [data-p]:empty{display:none}
+.hide{display:none!important}
+
+@media (max-width:820px){
+  .hero .hgrid{grid-template-columns:1fr;gap:26px}
+  .portrait{order:-1}.portrait.duo{padding:0 0 44px 24px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .row{grid-template-columns:1fr}
+  .doc{max-width:170px}
+  .nav nav a{padding:5px 7px;font-size:.88rem}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Full size image">
+  <button class="btn small" id="lbClose" type="button">Close</button>
+  <div id="lbBox"></div>
+  <p id="lbCap"></p>
+</div>
+<div class="editbar" id="editbar">
+  <button class="btn small" id="btnEdit" type="button">Edit site</button>
+  <button class="btn small hide" id="btnSave" type="button">Save changes</button>
+  <button class="btn small ghost hide" id="btnCancel" type="button">Cancel</button>
+  <span class="msg" id="editMsg"></span>
+</div>
+<input type="file" id="filePick" accept="image/*" class="hide">
+
+<script>
+const SDG = {3:["Good Health and Well-being","--sdg3"],4:["Quality Education","--sdg4"],5:["Gender Equality","--sdg5"],
+  10:["Reduced Inequalities","--sdg10"],13:["Climate Action","--sdg13"],17:["Partnerships for the Goals","--sdg17"]};
+
+const DEFAULT = {
+ "hero": {
+  "name": "Ureel Lal Muhammad",
+  "role": "AI for Global Health & Sustainable Development",
+  "role2": "",
+  "intro": "I'm Ureel Lal Muhammad, a Public Health AI Researcher and Data Analyst at Aga Khan University Hospital, Pakistan. I am passionate about using technology and data to improve lives. I believe artificial intelligence and data can transform public health, especially for communities where access to quality healthcare remains a challenge. At Aga Khan University, I work at the intersection of artificial intelligence, medical imaging, maternal and child health, and sustainable development.\n\nBeyond research, I founded Women for Climate Leadership, a youth-led initiative that empowers girls in underserved communities through education, career counselling, and climate awareness. I am passionate about women's empowerment, climate justice, and strengthening youth participation in sustainable development and public health policy.\nMy goal is to bridge AI, public health, and climate-resilient sustainable development, ensuring that technology and research create real opportunities for healthier mothers, children, and communities.",
+  "photo": "media/profile.jpg",
+  "photo2": "media/hero.jpg",
+  "sdgs": [
+   3,
+   4,
+   5,
+   10,
+   13,
+   17
+  ]
+ },
+ "cv": [
+  "media/cv-1.jpg",
+  "media/cv-2.jpg"
+ ],
+ "sections": [
+  {
+   "id": "achievements",
+   "title": "Achievements",
+   "layout": "cards",
+   "feature": true,
+   "lead": "Talks, selections and awards.",
+   "items": [
+    {
+     "title": "International Festival of Youth 2026, Russia",
+     "meta": "International Festival of Youth 2026",
+     "text": "Selected for the Russia Festival’s Regional Programme in Smolensk , where I participated in the Good Health and Well-being track, collaborating with an international group of young researchers to explore global public health challenges, exchange perspectives, and develop inclusive, sustainable solutions to improve healthcare access and reduce health inequalities.",
+     "img": "media/russia-group.jpg"
+    },
+    {
+     "title": "Panelist – AI for Social Good & Pediatric Neuroscience",
+     "meta": "Moscow · 2026",
+     "text": "Honoured to share the stage with Vera Tolchennikova, neuroscientist and Director of the Research Institute for Brain Development at RUDN University, to discuss AI-driven pediatric neuroimaging research in Pakistan and its potential to advance child brain health in low-resource settings.",
+     "img": "media/russia-festival.jpg"
+    },
+    {
+     "title": "Spoke on Voice of America Urdu",
+     "meta": "Mera Vote Mera Mustaqbil, episode 6",
+     "text": "Joined a studio panel on the role of young people in shaping policy and youth development in Pakistan.",
+     "video": "media/voa-clip.mp4",
+     "poster": "media/voa-poster.jpg",
+     "link": "https://www.urduvoa.com/a/mera-vote-mera-mustaqbil-ep-06/7463015.html",
+     "linkLabel": "Watch the full episode"
+    },
+    {
+     "title": "Hunar: a learning app for children with disabilities",
+     "meta": "Built for HANDS Independent Living Centres",
+     "text": "I built Hunar, an offline learning app in English and Urdu for children with hearing, vision or learning disabilities. It uses audio, large visuals and Pakistan Sign Language. HANDS uses it in its 10 Independent Living Centre schools in Karachi.",
+     "link": "https://claude.ai/artifact/JcHU55JWeTXtXjUKBsA81U",
+     "linkLabel": "Open Hunar"
+    },
+    {
+     "title": "Speaker at the Institution of Engineers Pakistan",
+     "meta": "AI in healthcare symposium · IEP Karachi Centre",
+     "text": "Presented my work on AI in healthcare at the Institution of Engineers Pakistan, held with NED University of Engineering and Technology.",
+     "img": "media/iep-speaker.jpg"
+    },
+    {
+     "title": "Woman with a Vision, NED 2025 DC",
+     "meta": "19th International Alumni Convention · Herndon, Virginia · Oct 2025",
+     "text": "Featured under the \"Woman with a Vision\" theme in the convention magazine of the NED alumni associations in North America.",
+     "img": "media/cert-ned-dc.jpg"
+    },
+    {
+     "title": "Poster presenter and workshop facilitator",
+     "img": "media/poster-talk.jpg",
+     "meta": "8th Annual Paediatrics Research Week, Aga Khan University · 2026",
+     "text": "Presented three research posters and led the pre-conference workshop,“Transforming Paediatric Brain MRI: Preprocessing to AI-Based Segmentation,” providing hands-on training in medical imaging, AI-driven analysis, and the application of imaging data to advance public health research and child neurodevelopment in low-resource settings."
+    },
+    {
+     "title": "Led career counselling sessions",
+     "meta": "Baloch Student Council NED and Malir Youth Alliance · May 2025",
+     "text": "Organised and led student counselling sessions and climate awareness workshops in primary schools across Malir, Karachi, focusing on environmental sustainability.",
+     "img": "media/counselling.jpg"
+    },
+    {
+     "title": "Community Speaker – Women's Empowerment and Gender Equality Awareness Session",
+     "meta": "HANDS and HabibMetro community event, district Thatta",
+     "text": "Engaged with rural community members in discussions on women's empowerment, gender equality, shared family responsibilities, and the important role of fathers in supporting women's education, health, and decision-making.",
+     "img": "media/hands-event.jpg"
+    }
+   ]
+  },
+  {
+   "id": "certificates",
+   "title": "Certificates",
+   "layout": "cards",
+   "fit": "contain",
+   "lead": "Select a certificate to see it in full size.",
+   "items": [
+    {
+     "title": "Participant Certificate, Regional Programme",
+     "meta": "International Festival of Youth 2026 · World Youth Festival · Russia",
+     "text": "For taking part in the Regional Programme of the International Youth Festival 2026, which brought together young people from different countries.",
+     "img": "media/cert-regional-program.jpg"
+    },
+    {
+     "title": "Young Female Leaders in Sports Leadership Camp",
+     "meta": "Right To Play · Canada",
+     "text": "Completed a three-day leadership camp for young women leaders, run by Right To Play Canada.",
+     "img": "media/cert-right-to-play.jpg"
+    },
+    {
+     "title": "Delegate, Local Conference of Youth Pakistan",
+     "meta": "NUST, Islamabad",
+     "text": "Fully funded delegate at Pakistan's first Local Conference of Youth, endorsed by YOUNGO. Contributed to the Balochistan climate policy dialogue.",
+     "img": "media/cert-lcoy.jpg"
+    },
+    {
+     "title": "IdeateX",
+     "meta": "XSEED Innovation Program",
+     "text": "Recognised for creativity, innovation and teamwork in ideation and problem solving.",
+     "img": "media/cert-ideatex.jpg"
+    },
+    {
+     "title": "Certificate of Appreciation, Empower Her",
+     "meta": "Tayyaba Fellowship Secondary School",
+     "text": "For leading the two-month Empower Her training programme on education, climate and technology.",
+     "img": "media/cert-empower-her.jpg"
+    },
+    {
+     "title": "7th International Youth Conference",
+     "meta": "Generation Next Network",
+     "text": "Took part virtually in the conference held in California, USA, on inclusion and development through innovation, in partnership with UN-Habitat.",
+     "img": "media/cert-iyc.jpg"
+    }
+   ]
+  },
+  {
+   "id": "experience",
+   "title": "Experience",
+   "layout": "rows",
+   "lead": "Each role has its work certificate attached. Select a certificate to read it in full.",
+   "items": [
+    {
+     "title": "Programmer Analyst, Research",
+     "meta": "Aga Khan University, Department of Paediatrics and Child Health, Karachi · Oct 2025 to present",
+     "text": "I work on the Gates Foundation-funded MINE Project, a longitudinal research study investigating how maternal health, nutrition, environmental conditions, and psychosocial adversities influence early childhood brain development in underserved communities of Karachi, Pakistan. My work aims to bridge artificial intelligence, public health, and child neurodevelopment, helping researchers better understand how early-life inequalities may shape children's long-term health and development.",
+     "img": "media/cert-aku.jpg",
+     "imgLabel": "AKU work certificate",
+     "link": "https://ecommons.aku.edu/pakistan_fhs_mc_women_childhealth_paediatr/1403/",
+     "linkLabel": "Read More"
+    },
+    {
+     "title": "Data Science Engineer",
+     "meta": "HANDS Welfare Foundation (HANDS Pakistan), Karachi · Feb 2024 to Aug 2024",
+     "text": "Processed National Disaster Management Authority (NDMA) flood data using Python and Apache Airflow, reducing data processing time by 60%. Contributed to the development of a Management Information System (MIS) for HANDS' MISALI Project, supporting disaster relief management, real-time field reporting, beneficiary tracking, and data-driven humanitarian response.",
+     "img": "media/cert-hands.jpg",
+     "imgLabel": "HANDS experience certificate",
+     "link": "https://hands.org.pk/",
+     "linkLabel": "Read More"
+    }
+   ]
+  }
+ ],
+ "contact": {
+  "title": "Contact",
+  "text": "I am open to research partnerships, speaking invitations and youth programmes.",
+  "email": "ureellalmuhammad@gmail.com",
+  "linkedin": "https://linkedin.com/in/ureel-b4920722a"
+ },
+ "rev": 3
+};
+
+
+let C = JSON.parse(JSON.stringify(DEFAULT));
+let editing = false, db = null, assets = null, pickTarget = null, snapshot = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const safeUrl = u => /^(https?:\/\/|media\/|\/_blob\/|blob:)/i.test(String(u||"")) ? String(u) : "";
+const ed = (path, val, ph) => `data-p="${path}" data-ph="${esc(ph||"Type here")}">${esc(val)}`;
+const sdgChip = n => SDG[n] ? `<span class="sdg" style="--c:var(${SDG[n][1]})"><b>${n}</b>SDG ${n} · ${SDG[n][0]}</span>` : "";
+
+const ICON = {
+ 3:'<path class="a-ecg" d="M3 26h9l4-11 6 21 5-15 3 5h15"/>',
+ 4:'<path d="M24 14c-5-4-11-4-17-2v22c6-2 12-2 17 2 5-4 11-4 17-2V12c-6-2-12-2-17 2z"/><path class="a-page" d="M24 14v22"/><path class="a-line" d="M11 19h8M11 24h8M29 19h8M29 24h8"/>',
+ 5:'<g class="a-beat"><circle cx="24" cy="18" r="10"/><path d="M24 28v14M17 36h14M19 16h10M19 21h10"/></g>',
+ 10:'<path d="M12 21h24M12 28h24"/><path class="a-up" d="M24 4l6 8H18z"/><path class="a-down" d="M24 45l6-8H18z"/>',
+ 13:'<g class="a-spin"><circle cx="24" cy="19" r="7"/><path d="M24 5v4M24 29v4M10 19h4M34 19h4M14 9l3 3M31 26l3 3M34 9l-3 3M17 26l-3 3"/></g><path class="a-wave" d="M-6 42q6-6 12 0t12 0 12 0 12 0 12 0"/>',
+ 17:'<g class="a-orbit"><circle cx="24" cy="13" r="7"/><circle cx="14" cy="30" r="7"/><circle cx="34" cy="30" r="7"/></g>'
+};
+const sdgTile = n => SDG[n] ? `<div class="tile" style="--c:var(${SDG[n][1]})"><div class="tn">${n}</div><div class="tl">${SDG[n][0]}</div><svg viewBox="0 0 48 48" aria-hidden="true">${ICON[n]||""}</svg></div>` : "";
+
+function itemHTML(sec, si, it, ii, color){
+  const p = `sections.${si}.items.${ii}`;
+  const img = safeUrl(it.img), vid = safeUrl(it.video), link = safeUrl(it.link);
+  const tools = `<div class="efields">
+      ${sec.grouped ? `<label>Category<input id="f-${si}-${ii}-cat" data-f="${p}.cat" value="${esc(it.cat)}"></label>`:""}
+      <label>Link (optional)<input id="f-${si}-${ii}-link" data-f="${p}.link" value="${esc(it.link)}" placeholder="https://"></label>
+      <label>Link button text<input id="f-${si}-${ii}-ll" data-f="${p}.linkLabel" value="${esc(it.linkLabel)}" placeholder="Open link"></label>
+    </div>
+    <div class="tools">
+      <button class="tbtn" type="button" data-act="photo" data-s="${si}" data-i="${ii}">${img?"Change photo":"Add photo"}</button>
+      ${img?`<button class="tbtn" type="button" data-act="nophoto" data-s="${si}" data-i="${ii}">Remove photo</button>`:""}
+      <button class="tbtn" type="button" data-act="up" data-s="${si}" data-i="${ii}">Move up</button>
+      <button class="tbtn danger" type="button" data-act="del" data-s="${si}" data-i="${ii}">Delete</button>
+    </div>`;
+  const shot = img ? `<button class="shot" type="button" data-full="${esc(img)}" data-cap="${esc(it.title)}"><img src="${esc(img)}" alt="${esc(it.title)}" loading="lazy"></button>` : "";
+  const linkBtn = link ? `<a class="btn small ghost" href="${esc(link)}" target="_blank" rel="noopener">${esc(it.linkLabel||"Open link")}</a>` : "";
+  if (sec.layout === "rows") return `<article class="row ${img?"":"noimg"}">
+      <div><h3 ${ed(p+".title",it.title,"Role")}</h3><div class="meta" ${ed(p+".meta",it.meta,"Organisation and dates")}</div>
+      <div class="text" ${ed(p+".text",it.text,"What you did")}</div>${linkBtn}${tools}</div>
+      ${img?`<div class="doc">${shot}<span ${ed(p+".imgLabel",it.imgLabel||"View certificate","Label")}</span></div>`:""}
+    </article>`;
+  if (sec.layout === "list") return `<article class="li"><h3 ${ed(p+".title",it.title,"Title")}</h3>
+      <div class="meta" ${ed(p+".meta",it.meta,"Detail")}</div><div class="text" ${ed(p+".text",it.text,"Description")}</div>${linkBtn}${tools}</article>`;
+  return `<article class="card ${sec.fit==="contain"?"fit-contain":""}" style="${color?`--gc:var(${color})`:""}">
+      ${vid?`<video controls preload="metadata" playsinline ${safeUrl(it.poster)?`poster="${esc(it.poster)}"`:""} src="${esc(vid)}"></video>`:shot}
+      <div class="cbody"><h3 ${ed(p+".title",it.title,"Title")}</h3><div class="meta" ${ed(p+".meta",it.meta,"Where and when")}</div>
+      <div class="text" ${ed(p+".text",it.text,"Short description")}</div>${linkBtn}${tools}</div></article>`;
+}
+
+function sectionHTML(sec, si){
+  const wrapCls = sec.layout==="rows"?"rows":sec.layout==="list"?"list":(sec.feature?"grid feature":"grid");
+  let body = "";
+  if (sec.grouped){
+    const cats = (sec.cats||[]).map(c=>c.name);
+    sec.items.forEach(it=>{ if(!cats.includes(it.cat)) cats.push(it.cat); });
+    body = cats.map(name=>{
+      const meta = (sec.cats||[]).find(c=>c.name===name) || {};
+      const items = sec.items.map((it,ii)=>it.cat===name?itemHTML(sec,si,it,ii,meta.color):"").join("");
+      if(!items) return "";
+      return `<div class="group" style="${meta.color?`--gc:var(${meta.color})`:""}"><div class="ghead"><h3>${esc(name||"Other")}</h3>${(meta.sdgs||[]).map(sdgChip).join("")}</div><div class="${wrapCls}">${items}</div></div>`;
+    }).join("");
+  } else body = `<div class="${wrapCls}">${sec.items.map((it,ii)=>itemHTML(sec,si,it,ii)).join("")}</div>`;
+  return `<section class="block" id="${esc(sec.id)}"><div class="wrap">
+    <div class="shead"><div class="tick"><i></i><i></i><i></i></div><div><h2 ${ed(`sections.${si}.title`,sec.title,"Section title")}</h2>
+    <p class="lead" ${ed(`sections.${si}.lead`,sec.lead,"Short intro for this section")}</p>
+    <div class="stools"><button class="tbtn danger" type="button" data-act="delsec" data-s="${si}">Delete this section</button></div></div></div>
+    ${body}
+    <div class="addrow"><button class="tbtn add" type="button" data-act="add" data-s="${si}">+ Add item to ${esc(sec.title)}</button></div>
+  </div></section>`;
+}
+
+function render(){
+  const h = C.hero, c = C.contact;
+  $("#app").innerHTML = `
+  <div class="sdgbar"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <header class="nav"><div class="wrap"><a class="brand" href="#top">${esc(h.name)}</a>
+    <nav aria-label="Sections">${C.sections.map(s=>`<a href="#${esc(s.id)}">${esc(s.title.split(",")[0])}</a>`).join("")}<a href="#contact">Contact</a></nav></div></header>
+  <div class="hero" id="top"><div class="wrap hgrid">
+    <div>
+      <h1 ${ed("hero.name",h.name,"Your name")}</h1>
+      <svg class="pulse" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22h150l12-14 14 26 12-22 10 10h70l12-14 14 26 12-22 10 10h262"/></svg>
+      <div class="role" ${ed("hero.role",h.role,"Your role")}</div>
+      <div class="role2" ${ed("hero.role2",h.role2,"Job title and organisation")}</div>
+      <p class="intro" ${ed("hero.intro",h.intro,"About you")}</p>
+      <div class="tiles">${(h.sdgs||[]).map(sdgTile).join("")}</div>
+      <div class="cta">
+        <a class="btn" href="#achievements">Achievements</a>
+        <a class="btn ghost" href="#certificates">Certificates</a>
+        <a class="btn ghost" href="#experience">Work certificates</a>
+        ${(C.cv||[]).length?`<button class="btn ghost" type="button" id="cvBtn">View CV</button>`:""}
+      </div>
+      <div class="tools"><button class="tbtn" type="button" data-act="herophoto">Change main photo</button><button class="tbtn" type="button" data-act="herophoto2">Change small photo</button></div>
+    </div>
+    <div class="portrait${safeUrl(h.photo2)?" duo":""}"><div class="main"><img src="${esc(safeUrl(h.photo))}" alt="Photos of ${esc(h.name)} at work: school sessions, a leadership camp, community visits and field work in Sindh"><div class="sdgbar"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>${safeUrl(h.photo2)?`<img class="inset" src="${esc(safeUrl(h.photo2))}" alt="${esc(h.name)} speaking at a community event">`:""}</div>
+  </div>
+  </div>
+  ${C.sections.map(sectionHTML).join("")}
+  <div class="wrap"><div class="addrow" style="margin-bottom:30px"><button class="tbtn add" type="button" data-act="addsec">+ Add a new section</button></div></div>
+  <section class="block" id="contact"><div class="wrap">
+    <div class="shead"><div class="tick"><i></i><i></i><i></i></div><div><h2 ${ed("contact.title",c.title,"Contact")}</h2>
+    <p class="lead" ${ed("contact.text",c.text,"A line about how to reach you")}</p></div></div>
+    <div class="cta" style="margin-top:0">
+      <a class="btn" href="mailto:${esc(c.email)}">Email me</a>
+      ${safeUrl(c.linkedin)?`<a class="btn ghost" href="${esc(c.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`:""}
+    </div>
+    <p class="meta" style="margin-top:12px">Email: <span ${ed("contact.email",c.email,"Email")}</span></p>
+    <div class="efields" style="max-width:420px"><label>LinkedIn link<input id="f-linkedin" data-f="contact.linkedin" value="${esc(c.linkedin)}"></label></div>
+  </div></section>
+  <svg class="waves" viewBox="0 0 1100 60" preserveAspectRatio="none" aria-hidden="true"><path class="w1" d="M0 30q75-28 150 0t150 0 150 0 150 0 150 0 150 0 150 0 150 0 150 0v30H0z"/><path class="w2" d="M0 38q75-22 150 0t150 0 150 0 150 0 150 0 150 0 150 0 150 0 150 0v22H0z"/></svg>
+  <footer><div class="wrap">© ${new Date().getFullYear()} ${esc(h.name)}. Research in public health, and field work for women, youth and climate. <button class="tbtn hide" type="button" id="ownerEdit">Edit this site</button></div></footer>`;
+  applyEditable(); syncOwner();
+}
+
+function applyEditable(){
+  document.querySelectorAll("[data-p]").forEach(el=>{
+    if(editing){ el.setAttribute("contenteditable","plaintext-only"); if(el.contentEditable!=="plaintext-only") el.setAttribute("contenteditable","true"); el.setAttribute("spellcheck","true"); }
+    else el.removeAttribute("contenteditable");
+  });
+}
+function setPath(path, val){
+  const ks = path.split("."); let o = C;
+  for(let i=0;i<ks.length-1;i++){ o = o[ks[i]]; if(o==null) return; }
+  o[ks[ks.length-1]] = val;
+}
+
+function openLb(urls, cap){
+  const box = $("#lbBox"); box.textContent = "";
+  urls.forEach(u=>{ const im = document.createElement("img"); im.src = u; im.alt = cap||""; box.appendChild(im); });
+  $("#lbCap").textContent = cap||""; $("#lb").classList.add("on"); box.scrollTop = 0; $("#lbClose").focus();
+}
+/* view interactions */
+document.addEventListener("click", e=>{
+  const a = e.target.closest('a[href^="#"]');
+  if(a){ const t = document.getElementById(a.getAttribute("href").slice(1)); if(t){ e.preventDefault(); t.scrollIntoView({behavior:"smooth",block:"start"}); } return; }
+  const shot = e.target.closest(".shot");
+  if(shot && !editing){ openLb([shot.dataset.full], shot.dataset.cap); return; }
+  if(e.target.closest("#cvBtn")){ openLb((C.cv||[]).map(safeUrl).filter(Boolean), "Curriculum vitae"); return; }
+  if(e.target.closest("#ownerEdit")){ $("#editbar").classList.add("on"); $("#btnEdit").click(); return; }
+  if(e.target.id==="lb" || e.target.id==="lbBox" || e.target.id==="lbClose"){ $("#lb").classList.remove("on"); return; }
+  const b = e.target.closest("[data-act]"); if(b && editing) act(b);
+});
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") $("#lb").classList.remove("on"); });
+document.addEventListener("input", e=>{
+  if(!editing) return;
+  const el = e.target;
+  if(el.dataset && el.dataset.p) setPath(el.dataset.p, el.innerText.replace(/ /g," ").replace(/\n{3,}/g,"\n\n").trim());
+  else if(el.dataset && el.dataset.f) setPath(el.dataset.f, el.value.trim());
+});
+document.addEventListener("paste", e=>{
+  const el = e.target.closest && e.target.closest("[data-p]"); if(!el || !editing) return;
+  e.preventDefault(); const t = (e.clipboardData||window.clipboardData).getData("text/plain");
+  document.execCommand("insertText", false, t);
+});
+
+/* edit actions */
+function msg(t){ $("#editMsg").textContent = t||""; }
+function act(b){
+  const a = b.dataset.act, si = +b.dataset.s, ii = +b.dataset.i;
+  if(a==="add"){ const s=C.sections[si]; const last=s.items[s.items.length-1]||{}; s.items.push({title:"",meta:"",text:"",cat:s.grouped?(last.cat||""):undefined}); render(); msg("New item added at the end. Fill it in."); return; }
+  if(a==="del" || a==="delsec"){
+    if(b.dataset.sure!=="1"){ b.dataset.sure="1"; b.textContent="Press again to delete"; return; }
+    if(a==="del") C.sections[si].items.splice(ii,1); else C.sections.splice(si,1);
+    render(); return;
+  }
+  if(a==="up"){ if(ii>0){ const it=C.sections[si].items; [it[ii-1],it[ii]]=[it[ii],it[ii-1]]; render(); } return; }
+  if(a==="nophoto"){ delete C.sections[si].items[ii].img; delete C.sections[si].items[ii].imgId; render(); return; }
+  if(a==="addsec"){ C.sections.push({id:"section-"+Date.now().toString(36),title:"New section",lead:"",layout:"cards",items:[{title:"",meta:"",text:""}]}); render(); msg("New section added at the bottom."); return; }
+  if(a==="photo" || a==="herophoto" || a==="herophoto2"){
+    if(!assets){ msg("Photo upload is not available here. Send the photo to Claude and it will be added."); return; }
+    pickTarget = a==="herophoto" ? {hero:"photo"} : a==="herophoto2" ? {hero:"photo2"} : {si,ii}; $("#filePick").value=""; $("#filePick").click();
+  }
+}
+$("#filePick").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f || !pickTarget) return;
+  if(f.size > 20*1024*1024){ msg("That photo is over 20 MB. Please choose a smaller one."); return; }
+  msg("Uploading photo…");
+  try{
+    const r = await assets.upload(f);
+    if(pickTarget.hero) C.hero[pickTarget.hero] = r.url; else { const it=C.sections[pickTarget.si].items[pickTarget.ii]; it.img=r.url; it.imgId=r.id; }
+    render(); msg("Photo added. Press Save changes to keep it.");
+  }catch(err){ msg("The photo could not be uploaded. Please try again."); }
+});
+
+function setEditing(on){
+  editing = on; document.body.classList.toggle("editing", on);
+  $("#btnEdit").classList.toggle("hide", on); $("#btnSave").classList.toggle("hide", !on); $("#btnCancel").classList.toggle("hide", !on);
+  render();
+}
+$("#btnEdit").addEventListener("click", ()=>{ snapshot = JSON.stringify(C); setEditing(true); msg("Click any text with a dotted outline to change it."); });
+$("#btnCancel").addEventListener("click", ()=>{ if(snapshot) C = JSON.parse(snapshot); setEditing(false); msg("Changes dropped."); });
+$("#btnSave").addEventListener("click", async ()=>{
+  if(!db){ msg("Saving is not available right now."); return; }
+  $("#btnSave").disabled = true; msg("Saving…");
+  try{ await db.doc("site/content").set({json:JSON.stringify(C), savedAt:Date.now()}); setEditing(false); msg("Saved."); }
+  catch(err){ msg(err && err.code==="invalid_argument" ? "You do not have permission to save changes." : "Could not save. Check your connection and try again."); }
+  $("#btnSave").disabled = false;
+});
+
+let canEditSite = false;
+function syncOwner(){
+  if(!canEditSite) return;
+  const b = $("#ownerEdit"); if(b) b.classList.remove("hide");
+  if(location.hash === "#edit") $("#editbar").classList.add("on");
+}
+window.addEventListener("hashchange", syncOwner);
+render();
+
+/* saved edits and owner tools: light up when the platform answers */
+(async function(){
+  if(!window.claude || !window.claude.use) return;
+  try{
+    db = await window.claude.use("db");
+    if(db){
+      const snap = await Promise.race([db.doc("site/content").get(), new Promise(r=>setTimeout(()=>r(null),10000))]);
+      if(snap && snap.exists){
+        try{ const saved = JSON.parse(snap.data().json); if(saved && saved.hero && Array.isArray(saved.sections) && !editing && (saved.rev||0) >= (DEFAULT.rev||0)){ C = saved; render(); } }catch(_){}
+      }
+    }
+  }catch(_){ }
+  try{
+    const user = await window.claude.use("user");
+    const can = user ? await user.canEdit() : false;
+    if(can && db){ try{ assets = await window.claude.use("assets"); }catch(_){ assets=null; } canEditSite = true; syncOwner(); }
+  }catch(_){ }
+})();
+</script>
+</body>
+</html>
